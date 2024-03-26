@@ -1,0 +1,48 @@
+<div class="row mt-3 mb-2">
+    <div class="col-md-4">
+        <h2>Trending Movies</h2>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Trending in...
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" (click)="loadMovies('day')"
+                        type="button">Day</button></li>
+                <li><button class="dropdown-item" (click)="loadMovies('week')"
+                        type="button">Weeek</button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="alert alert-danger p-3 mt-3"
+        role="alert"
+        *ngIf="error$">
+        {{error$}}
+    </div>
+</div>
+<div class="row">
+    <div class="grid-layout">
+
+        <div class="card"
+            *ngFor="let movie of response$?.results">
+            <img src="https://image.tmdb.org/t/p/w500/{{movie.backdrop_path}}"
+                alt="#" />
+            <span class="rating">{{movie.vote_average | number:'1.1-1' }}</span>
+            <div class="card-body">
+                <h5 class="title">
+                    <a href=""
+                        class="text-underline text-black">{{movie.title}}</a>
+                </h5>
+                <p class="card-text mt-1">{{movie.overview}}</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-outline-success"
+                    title="Add to Favourites">
+                    <i class="bi bi-bookmark-check-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
