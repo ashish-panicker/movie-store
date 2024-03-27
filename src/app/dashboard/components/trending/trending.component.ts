@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DashBoardService } from '../../services/dashboard.service';
 import { TrendingMoviesResponse } from '../../types/trending';
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [NgIf, NgFor, DecimalPipe],
+  imports: [NgIf, NgFor, DecimalPipe, RouterLink],
   templateUrl: './trending.component.html',
   styleUrl: './trending.component.css',
 })

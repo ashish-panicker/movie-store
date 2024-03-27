@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    gap: 12px;
+}
+
+.rating {
+    padding: 6px;
+    font-weight: bold;
+    font-size: 1.15rem;
+    background-color: rgb(246, 222, 8);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    position: relative;   
+    top: -25px;
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 10%;
+}
+
+.rating-2{
+    top:0;
+    border-radius: 30%;
+}
+
+.title {
+    padding: 2px 0;
+    font-weight: bold;
+    text-align: left;
+    margin-right: 12px;
+}

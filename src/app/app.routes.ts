@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'movies', pathMatch: 'full' },
   {
-    path: '',
+    path: 'movies',
     loadChildren: () =>
       import('../app/dashboard/dashboard.routes').then((r) => r.registerRoutes),
   },

@@ -3,6 +3,7 @@ export const environment = {
   API_READ_TOKEN:
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYmFhMjU2ZjcxNWYyMTdkMTgwMTUzOThkN2Y3MzU0OSIsInN1YiI6IjYyOTk4YzNhZDRjYzhlMDBhNWUzYjBiOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.smkzeYHJ2v78Qz3uzbQzh_mGGDCbun3k8TJNknAUmTY',
   API_URL: 'https://api.themoviedb.org/3',
+  IMG_URL: 'https://image.tmdb.org/t/p/',
   firebaseConfig: {
     apiKey: 'AIzaSyCPoeWt3BlgB-pspCjOOrKFIUqpjc3I2a4',
     authDomain: 'movie-store-ce1ac.firebaseapp.com',

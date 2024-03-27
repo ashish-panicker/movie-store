@@ -1,19 +1,57 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { TrendingMoviesResponse } from '../types/trending';
+import { MovieDetail } from '../../shared/types/movie-detail';
+import { MovieDetailReview } from '../types/movie-detail-review';
+import { ReviewDetail } from '../../shared/types/review-detail';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashBoardService {
-
   trendingMoviesUrl = `${environment.API_URL}/trending/movie`;
+  movieByIdUrl = `${environment.API_URL}/movie`;
+  movieReviewUrl = `${this.movieByIdUrl}`;
+  lang = 'language=en-US';
+  badyImage = signal<string>('')
 
   constructor(private http: HttpClient) {}
 
   getTrendingMovies(type: string = 'day'): Observable<TrendingMoviesResponse> {
-    return this.http.get<TrendingMoviesResponse>(`${this.trendingMoviesUrl}/${type}?language=en-US`);
+    return this.http.get<TrendingMoviesResponse>(
+      `${this.trendingMoviesUrl}/${type}?${this.lang}`
+    );
   }
+
+  getMovieById(id: string): Observable<MovieDetailReview> {
+    return this.http
+      .get<MovieDetail>(`${this.movieByIdUrl}/${id}?${this.lang}`)
+      .pipe(
+        switchMap((movie) => {
+          return this.http
+            .get<ReviewDetail>(
+              `${this.movieReviewUrl}/${id}/reviews?${this.lang}&page=1`
+            )
+            .pipe(
+              map((review) => {
+                this.badyImage.set(`${environment.IMG_URL}/original/${movie.poster_path}`)
+                return {
+                  movie,
+                  review,
+                };
+              })
+            );
+        })
+      );
+  }
+
+  getMoreViews(pageNum: string): Observable<ReviewDetail> {
+    return this.http.get<ReviewDetail>(
+      `${this.movieReviewUrl}/${pageNum}/reviews?${this.lang}&page=${pageNum}`
+    );
+  }
+
+  
 }

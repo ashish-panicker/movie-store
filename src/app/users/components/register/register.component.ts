@@ -1,6 +1,13 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { UserService } from '../../service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,9 +17,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  
   registerForm: FormGroup;
   isSubmitted: boolean = false;
+  userService = inject(UserService);
+  router = inject(Router);
 
   constructor(private fb: FormBuilder) {
     this.registerForm = fb.nonNullable.group({
@@ -26,7 +34,15 @@ export class RegisterComponent {
     return this.registerForm.controls;
   }
 
-  onSubmit(){
-    this.isSubmitted = true
+  onSubmit() {
+    const rawForm = this.registerForm.getRawValue();
+    this.userService
+      .register(rawForm.email, rawForm.username, rawForm.password)
+      .subscribe({
+        next: () => {
+          this.isSubmitted = true;
+          this.router.navigateByUrl('/users')
+        },
+      });
   }
 }

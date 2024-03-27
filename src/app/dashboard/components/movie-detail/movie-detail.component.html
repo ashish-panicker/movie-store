@@ -1,0 +1,72 @@
+<div class="text-center p-3 m-3 fs-2"
+    *ngIf="isLoading">Loading...</div>
+<div class="row"
+    *ngIf="!isLoading">
+    <div class="col-md-4">
+        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie?.poster_path}}"
+            class=" img-fluid rounded-start"
+            alt="..." />
+    </div>
+    <div class="col-md-8">
+        <div class="card-body">
+            <h1 class="display-1 fw-bold"> {{movie?.title}}
+                <p class="text-body-secondary fs-4 px-1">Released On: {{movie?.release_date | date : 'MMM d, y'}}</p>
+            </h1>
+            <p class="lead p-2">
+                {{movie?.overview}}
+            </p>
+            <div class="p-2 pt-0">
+                <span *ngFor="let genre of movie?.genres"
+                    class="badge text-bg-dark me-1 fs-6">{{genre.name}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12 py-1 mt-2">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <h3>Reviews</h3>
+                <div class="button-group">
+                    <button class="btn btn-lb btn-light"> <i class="bi bi-caret-left"></i>
+                    </button>
+                    <span>Page {{review?.page}} of {{review?.total_pages}}</span>
+                    <button class="btn btn-lb btn-light"> <i class="bi bi-caret-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 py-1 mt-2">
+
+            <div class="list-group">
+                <div *ngFor="let r of review?.results"
+                    class="list-group-item list-group-item-action mb-1 mt-1"
+                    aria-current="true">
+                    <div class="d-flex w-100 justify-content-between mb-1">
+                            <div class="fs-5 fw-bold">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <span>
+                                        <img src="https://image.tmdb.org/t/p/w300/{{r.author_details.avatar_path}}"
+                                            alt="" class="img-fluid me-2" style="height: 64px; width: 64px; border-radius: 50%;"/>
+                                    </span>
+                                    <span class="fs-4">{{r.author}}</span> 
+                                    <span *ngIf="r.author_details.rating != null"
+                                        [class.bg-success]="r.author_details.rating >= 8"
+                                        [class.bg-warning]="r.author_details.rating < 8"
+                                        [class.bg-danger]="r.author_details.rating <= 5"
+                                        class="badge rounded-pill ms-1 mt-2">
+                                        {{r.author_details.rating}}
+                                        <span><i class="bi bi-star-fill"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                        <small> {{r.created_at | date : 'MMM d, y'}} </small>
+                    </div>
+                    <p class="mb-1"
+                        [innerHTML]="r.content"></p>
+                    <small></small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

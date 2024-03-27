@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { AuthModule } from '@angular/fire/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AppComponent } from './app.component';
+import { UserService } from './users/service/user.service';
+import { environment } from '../environments/environment.development';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent,  AuthModule,
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),],
+      providers: [UserService]
     }).compileComponents();
   });
 
@@ -14,16 +20,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'movie-store' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('movie-store');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, movie-store');
-  });
 });
