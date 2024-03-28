@@ -6,6 +6,7 @@ import { TrendingMoviesResponse } from '../types/trending';
 import { MovieDetail } from '../../shared/types/movie-detail';
 import { MovieDetailReview } from '../types/movie-detail-review';
 import { ReviewDetail } from '../../shared/types/review-detail';
+import { CreditResponse } from '../types/credit-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class DashBoardService {
   movieByIdUrl = `${environment.API_URL}/movie`;
   movieReviewUrl = `${this.movieByIdUrl}`;
   lang = 'language=en-US';
-  badyImage = signal<string>('')
+  badyImage = signal<string>('');
 
   constructor(private http: HttpClient) {}
 
@@ -23,6 +24,10 @@ export class DashBoardService {
     return this.http.get<TrendingMoviesResponse>(
       `${this.trendingMoviesUrl}/${type}?${this.lang}`
     );
+  }
+
+  getMovieCredits(id: string): Observable<CreditResponse> {
+    return this.http.get<CreditResponse>(`${this.movieByIdUrl}/${id}/credits`);
   }
 
   getMovieById(id: string): Observable<MovieDetailReview> {
@@ -36,7 +41,9 @@ export class DashBoardService {
             )
             .pipe(
               map((review) => {
-                this.badyImage.set(`${environment.IMG_URL}/original/${movie.poster_path}`)
+                this.badyImage.set(
+                  `${environment.IMG_URL}/original/${movie.poster_path}`
+                );
                 return {
                   movie,
                   review,
@@ -52,6 +59,4 @@ export class DashBoardService {
       `${this.movieReviewUrl}/${pageNum}/reviews?${this.lang}&page=${pageNum}`
     );
   }
-
-  
 }

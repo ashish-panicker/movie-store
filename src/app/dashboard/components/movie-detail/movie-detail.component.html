@@ -1,72 +1,110 @@
-<div class="text-center p-3 m-3 fs-2"
+<div class="text-center p-3 m-3 fs-2 bg-gray-200 text-black text-3xl rounded-lg"
     *ngIf="isLoading">Loading...</div>
-<div class="row"
+<div class="py-4 px-1"
     *ngIf="!isLoading">
-    <div class="col-md-4">
-        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie?.poster_path}}"
-            class=" img-fluid rounded-start"
-            alt="..." />
-    </div>
-    <div class="col-md-8">
-        <div class="card-body">
-            <h1 class="display-1 fw-bold"> {{movie?.title}}
-                <p class="text-body-secondary fs-4 px-1">Released On: {{movie?.release_date | date : 'MMM d, y'}}</p>
-            </h1>
-            <p class="lead p-2">
-                {{movie?.overview}}
-            </p>
-            <div class="p-2 pt-0">
+
+    <div class="grid gap-2 grid-flow-col grid- bg-white border border-gray-200 rounded-lg shadow h-[540px]">
+        <img class="w-auto rounded-t-lg object-contain h-[540px] "
+            src="https://image.tmdb.org/t/p/w500/{{movie?.poster_path}}"
+            alt="" />
+
+        <div class="flex flex-col ms-3 leading-normal">
+            <h5 class="mb-0 text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {{movie?.title}}
+            </h5>
+            <div class="py-1 mb-3">
                 <span *ngFor="let genre of movie?.genres"
-                    class="badge text-bg-dark me-1 fs-6">{{genre.name}}</span>
+                    class="text font-medium me-2 py-0.5 bg-transparent px-0 rounded ">{{genre.name}}</span>
+                <span class="text font-medium me-2 py-0.5 bg-transparent px-0 rounded">{{movie?.release_date | date :
+                    'MMM d, y'}}</span>
+                <span class="text font-medium me-2 py-0.5 bg-transparent px-0 rounded">{{movie?.runtime! |
+                    minuteHour}}</span>
             </div>
-        </div>
+            <div class="rounded-full text-center text-2xl font-bold w-[64px] pt-2 px-1 h-[64px] bg-black text-white"
+                [ngStyle]="{'border': movie?.vote_average! >= 7 ? '5px solid green' : '5px solid yellow'}">
+                {{movie?.vote_average | number : '1.1-1'}}
+            </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-12 py-1 mt-2">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h3>Reviews</h3>
-                <div class="button-group">
-                    <button class="btn btn-lb btn-light"> <i class="bi bi-caret-left"></i>
-                    </button>
-                    <span>Page {{review?.page}} of {{review?.total_pages}}</span>
-                    <button class="btn btn-lb btn-light"> <i class="bi bi-caret-right"></i>
-                    </button>
+            <div class="mb-3 text-[20px] font-normal text-gray-700 dark:text-gray-400">
+                <p class=" mt-3 mb-1 font-bold text-[22px]">Overview</p>
+                <p>{{movie?.overview}}</p>
+            </div>
+<!-- 
+            <div class="pt-0">
+                <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium 
+                    rounded-lg text-sm px-5 py-2.5  focus:outline-none "
+                    href="{{movie?.homepage}}"
+                    target="_blank">Movie Details</a>
+            </div> -->
+            <div class="p-2 pt-0"
+                class="flex">
+                <div>
+                    <p class="mt-3 mb-1 font-bold text-[22px]">Production</p>
+                    <span *ngFor="let pc of movie?.production_companies"
+                        class="bg-transparent text-blue-800 font-semibold me-2 px-0 py-0.5 ">
+                        {{pc.name}}
+                    </span>
                 </div>
             </div>
-        </div>
-        <div class="col-md-12 py-1 mt-2">
 
-            <div class="list-group">
-                <div *ngFor="let r of review?.results"
-                    class="list-group-item list-group-item-action mb-1 mt-1"
-                    aria-current="true">
-                    <div class="d-flex w-100 justify-content-between mb-1">
-                            <div class="fs-5 fw-bold">
-                                <div class="d-flex w-100 justify-content-between align-items-center">
-                                    <span>
-                                        <img src="https://image.tmdb.org/t/p/w300/{{r.author_details.avatar_path}}"
-                                            alt="" class="img-fluid me-2" style="height: 64px; width: 64px; border-radius: 50%;"/>
-                                    </span>
-                                    <span class="fs-4">{{r.author}}</span> 
-                                    <span *ngIf="r.author_details.rating != null"
-                                        [class.bg-success]="r.author_details.rating >= 8"
-                                        [class.bg-warning]="r.author_details.rating < 8"
-                                        [class.bg-danger]="r.author_details.rating <= 5"
-                                        class="badge rounded-pill ms-1 mt-2">
-                                        {{r.author_details.rating}}
-                                        <span><i class="bi bi-star-fill"></i></span>
-                                    </span>
-                                </div>
-                            </div>
-                        <small> {{r.created_at | date : 'MMM d, y'}} </small>
+        </div>
+    </div>
+    <div class="py-2">
+        <h3 class="font-bold text-2xl">Cast</h3>
+        <div class="grid grid-flow-col auto-cols-auto gap-2 overflow-x-scroll mb-3">
+            <div *ngFor="let actor of credits?.cast"
+                class="w-[300px]">
+                @if(actor.profile_path != null){
+                <img src="https://image.tmdb.org/t/p/w300/{{actor.profile_path}}"
+                    alt=""
+                    class="rounded-lg" />
+                }
+                <p class="font-bold text-center">{{actor.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-row justify-between items-center mt-3">
+        <h3 class="font-bold text-2xl">Reviews: {{review?.total_results}}</h3>
+        <div class="button-group">
+            <button class="btn btn-lb btn-light"> <i class="bi bi-caret-left"></i>
+            </button>
+            <span>Page {{review?.page}} of {{review?.total_pages}}</span>
+            <button class="btn btn-lb btn-light"> <i class="bi bi-caret-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="list-group">
+        <div *ngFor="let r of review?.results"
+            class="list-group-item list-group-item-action mb-1 mt-1"
+            aria-current="true">
+            <div class="flex items-center justify-between mb-1">
+                <div class="text-[24px] font-bold">
+                    <div class="flex w-100 justify-between items-center">
+                        <span>
+                            <img src="https://image.tmdb.org/t/p/w300/{{r.author_details.avatar_path}}"
+                                alt=""
+                                class="img-fluid me-2"
+                                style="height: 64px; width: 64px; border-radius: 50%;" />
+                        </span>
+                        <span class="fs-4">{{r.author}}</span>
+                        <span *ngIf="r.author_details.rating != null"
+                            [class.bg-success]="r.author_details.rating >= 8"
+                            [class.bg-warning]="r.author_details.rating < 8"
+                            [class.bg-danger]="r.author_details.rating <= 5"
+                            class="badge rounded-pill ms-1 mt-2">
+                            {{r.author_details.rating}}
+                            <span><i class="bi bi-star-fill"></i></span>
+                        </span>
                     </div>
-                    <p class="mb-1"
-                        [innerHTML]="r.content"></p>
-                    <small></small>
                 </div>
+                <small> {{r.created_at | date : 'MMM d, y'}} </small>
             </div>
-
+            <p class="mb-1"
+                [innerHTML]="r.content"></p>
+            <small></small>
         </div>
     </div>
+
 </div>

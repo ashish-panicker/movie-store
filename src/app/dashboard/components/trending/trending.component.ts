@@ -3,11 +3,12 @@ import { DashBoardService } from '../../services/dashboard.service';
 import { TrendingMoviesResponse } from '../../types/trending';
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MovieCardComponent } from '../movide-card/movide-card.component';
 
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [NgIf, NgFor, DecimalPipe, RouterLink],
+  imports: [NgIf, NgFor, DecimalPipe, MovieCardComponent],
   templateUrl: './trending.component.html',
   styleUrl: './trending.component.css',
 })

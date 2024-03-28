@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .grid-layout {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
@@ -5,17 +9,8 @@
 }
 
 .rating {
-    padding: 6px;
-    font-weight: bold;
-    font-size: 1.15rem;
-    background-color: rgb(246, 222, 8);
-    color: rgb(0, 0, 0);
-    text-align: center;
     position: relative;   
     top: -25px;
-    border: 1px solid black;
-    border-radius: 50%;
-    width: 10%;
 }
 
 .rating-2{
