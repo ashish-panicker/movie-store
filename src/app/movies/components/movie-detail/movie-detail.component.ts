@@ -8,11 +8,22 @@ import { MinuteHourPipe } from '../../../shared/pipes/minute-hour.pipe';
 import { CreditResponse } from '../../types/credit-response';
 import { Crew } from '../../../shared/types/crew';
 import { GroupedCrew } from '../../types/grouped-crew';
+import { CastHighlightComponent } from '../cast-highlight/cast-highlight.component';
+import { CrewHighlightComponent } from '../crew-highlight/crew-highlight.component';
 
 @Component({
   selector: 'app-movie-detail',
   standalone: true,
-  imports: [NgFor, DatePipe, NgIf, NgStyle, MinuteHourPipe, DecimalPipe],
+  imports: [
+    NgFor,
+    DatePipe,
+    NgIf,
+    NgStyle,
+    MinuteHourPipe,
+    DecimalPipe,
+    CastHighlightComponent,
+    CrewHighlightComponent,
+  ],
   templateUrl: './movie-detail.component.html',
 })
 export class MovieDetailComponent implements OnInit {
@@ -22,6 +33,7 @@ export class MovieDetailComponent implements OnInit {
   review: ReviewDetail | undefined;
   credits: CreditResponse | undefined;
   groupedCrew: GroupedCrew | undefined;
+  highlightCrew: Crew[] = [];
 
   isCreditsLoading = true;
   isLoading = true;
@@ -39,15 +51,25 @@ export class MovieDetailComponent implements OnInit {
       error: (error) => console.error(error),
     });
 
-    this.loadMovieCredits()
+    this.loadMovieCredits();
   }
 
   loadMovieCredits() {
     this.service.getMovieCredits(this.id).subscribe({
       next: (response) => {
-        console.log(response.crew);
         this.credits = response;
         this.groupedCrew = this.groupByKnownForDepartment(response.crew);
+        this.highlightCrew = [
+          ...this.highlightCrew,
+          ...this.groupedCrew['Directing'].filter(
+            (crew) => crew.job.includes('Director') || crew.job.includes('Directing') 
+          ),
+          ...this.groupedCrew['Production'].filter((crew) =>
+            crew.job.includes('Producer')
+          ),
+        ];
+
+        console.log(this.groupedCrew['Directing']);
         this.isCreditsLoading = false;
       },
       error: (error) => {

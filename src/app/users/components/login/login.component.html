@@ -1,40 +1,43 @@
-<div class="row p-4">
-    <div class="col-sm-12 col-md-6 offset-md-3 my-4">
-        <form [formGroup]="loginForm"
-            (ngSubmit)="onSubmit()">
-            <h2 class="text-left">Login</h2>
-            <div class="form-floating mb-3">
-                <input type="email"
-                    formControlName="username"
-                    class="form-control"
-                    name="username"
-                    [class.is-invalid]="f['username'].invalid &&( f['username'].dirty || f['username'].touched || isSubmitted)"
-                    placeholder="Username" />
-                <label for="username">Username</label>
-                <span class="invalid-feedback"
-                    *ngIf="f['username'].invalid &&( f['username'].hasError('required') || f['username'].touched || isSubmitted)">
-                    Username is required.
-                </span>
-            </div>
-            <div class="form-floating">
-                <input type="password"
-                    formControlName="password"
-                    class="form-control"
-                    name="password"
-                    [class.is-invalid]="f['password'].invalid &&( f['password'].dirty || f['password'].touched || isSubmitted)"
-                    placeholder="Password" />
-                <label for="password">Password</label>
-                <span class="invalid-feedback"
-                    *ngIf="f['password'].invalid &&( f['password'].hasError('required') || f['password'].touched || isSubmitted)">
-                    Password is required.
-                </span>
-                <span class="invalid-feedback"
-                    *ngIf="f['password'].invalid &&( f['password'].hasError('minlength') || f['password'].touched || isSubmitted)">
-                    Password must be minimum 4 chars long.
-                </span>
-            </div>
-            <button class="btn btn-success btn-lg mt-3"
-                type="submit">Login</button>
-        </form>
-    </div>
+<div class="flex flex-col mx-auto w-1/2">
+    <form [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="bg-transparent shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+        <h2 class="text-center text-3xl font-bold mb-3">Sign In</h2>
+        <div class="mb-3">
+            <label for="username"
+                class="block text-gray-700 text-sm font-bold mb-1">Username</label>
+            <input type="email"
+                formControlName="username"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="username"
+                [ngClass]="{'border-red-500':f['username'].invalid &&( f['username'].dirty || f['username'].touched || isSubmitted)}"
+                placeholder="Username" />
+            <span class="text-red-400 block"
+                *ngIf="f['username'].invalid && ( f['username'].hasError('required') || f['username'].touched || isSubmitted)">
+                Username is required.
+            </span>
+        </div>
+        <div class="mb-3">
+            <label for="password"
+                class="block text-gray-700 text-sm font-bold mb-1">Password</label>
+            <input type="password"
+                formControlName="password"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none 
+                    focus:shadow-outline"
+                name="password"
+                [ngClass]="{'border-red-500':f['password'].invalid &&( f['password'].dirty || f['password'].touched || isSubmitted)}"
+                placeholder="Password" />
+            <span class="text-red-400 block"
+                *ngIf="f['password'].invalid &&( f['password'].hasError('required') || f['password'].touched || isSubmitted)">
+                Password is required.
+            </span>
+            <span class="text-red-400 block"
+                *ngIf="f['password'].invalid &&( f['password'].hasError('minlength') || f['password'].touched || isSubmitted)">
+                Password must be minimum 4 chars long.
+            </span>
+        </div>
+        <button
+            class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit">Login</button>
+    </form>
 </div>

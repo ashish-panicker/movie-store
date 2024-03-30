@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -12,11 +12,11 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent  {
   loginForm: FormGroup;
   isSubmitted: boolean = false;
   userService = inject(UserService);
@@ -29,11 +29,7 @@ export class LoginComponent implements OnInit {
     });
     console.log(this.userService.currentUser());
   }
-
-  ngOnInit(): void {
-    
-  }
-
+  
   get f() {
     return this.loginForm.controls;
   }

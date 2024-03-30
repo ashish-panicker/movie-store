@@ -1,0 +1,11 @@
+<h3 class="font-bold text-2xl">Cast</h3>
+<div class="grid grid-flow-col auto-cols-auto gap-2 overflow-x-scroll mb-3">
+    <div *ngFor="let actor of cast"
+        class="w-[300px]">
+        <img src="https://image.tmdb.org/t/p/w300/{{actor.profile_path}}"
+            alt=""
+            class="rounded-lg" />
+        <p class="font-bold text-center text-[18px] px-4 h-10 flex align-middle justify-center items-center">
+            {{actor.name}}</p>
+    </div>
+</div>
