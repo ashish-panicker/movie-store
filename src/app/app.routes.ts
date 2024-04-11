@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'movies',
     loadChildren: () =>
-      import('../app/movies/movie.routes').then((r) => r.registerRoutes),
+      import('../app/dashboard/movie.routes').then((r) => r.registerRoutes),
   },
   {
     path: 'users',

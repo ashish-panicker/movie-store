@@ -12,9 +12,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 })
 export class AppComponent implements OnInit {
   userService = inject(UserService);
-  constructor(){
-    
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.userService.user$.subscribe((user) => {

@@ -12,17 +12,19 @@ import { CreditResponse } from '../types/credit-response';
   providedIn: 'root',
 })
 export class DashBoardService {
-  trendingMoviesUrl = `${environment.API_URL}/trending/movie`;
+  trendingMoviesUrl = `${environment.API_URL}/trending/`;
   movieByIdUrl = `${environment.API_URL}/movie`;
   movieReviewUrl = `${this.movieByIdUrl}`;
   lang = 'language=en-US';
-  badyImage = signal<string>('');
+  bodyImage = signal<string>('');
+  inSelection = signal<string>('movie')
+  durationToLoad = signal<string>('day')
 
   constructor(private http: HttpClient) {}
 
   getTrendingMovies(type: string = 'day'): Observable<TrendingMoviesResponse> {
     return this.http.get<TrendingMoviesResponse>(
-      `${this.trendingMoviesUrl}/${type}?${this.lang}`
+      `${this.trendingMoviesUrl}/${this.inSelection()}/${this.durationToLoad()}?${this.lang}`
     );
   }
 
@@ -41,7 +43,7 @@ export class DashBoardService {
             )
             .pipe(
               map((review) => {
-                this.badyImage.set(
+                this.bodyImage.set(
                   `${environment.IMG_URL}/original/${movie.poster_path}`
                 );
                 return {

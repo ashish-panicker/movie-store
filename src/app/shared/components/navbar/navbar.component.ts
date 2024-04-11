@@ -1,8 +1,10 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { UserService } from '../../../users/service/user.service';
-import { user } from '@angular/fire/auth';
 import { Router, RouterLink } from '@angular/router';
+import { DashBoardService } from '../../../dashboard/services/dashboard.service';
+import { Store } from '@ngrx/store';
+import { dashBoardActions } from '../../../dashboard/store/actions';
 
 @Component({
   selector: 'app-navbar',
@@ -14,12 +16,20 @@ import { Router, RouterLink } from '@angular/router';
 export class NavbarComponent {
   userService = inject(UserService);
   router = inject(Router)
+  service = inject(DashBoardService)
 
+  constructor(private store: Store){}
+  
+  load(url:string){
+    this.service.inSelection.set(url)
+    this.store.dispatch(dashBoardActions.load())
+  }
+  
+  login(url:string){
+    this.router.navigateByUrl(url)
+  }
+  
   logout() {
     this.userService.logout();
-  }
-
-  toLogin() {
-    this.router.navigateByUrl('users')
   }
 }

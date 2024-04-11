@@ -68,8 +68,6 @@ export class MovieDetailComponent implements OnInit {
             crew.job.includes('Producer')
           ),
         ];
-
-        console.log(this.groupedCrew['Directing']);
         this.isCreditsLoading = false;
       },
       error: (error) => {
