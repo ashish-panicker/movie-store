@@ -1,5 +1,6 @@
-<div class="text-center p-3 m-3 fs-2 bg-gray-200 text-black text-3xl rounded-lg"
-    *ngIf="isLoading">Loading...</div>
+@if(isLoading){
+<div class="text-center p-3 m-3 fs-2 bg-gray-200 text-black text-3xl rounded-lg">Loading...</div>
+}
 <div class="py-4 px-1"
     *ngIf="!isLoading">
 
@@ -13,8 +14,7 @@
                 <span class="mb-0 text-5xl font-bold tracking-tight text-gray-900 ">
                     {{movie?.title}}
                 </span>
-                <span
-                    class="rounded-full text-center text-2xl font-bold w-auto p-2 h-auto bg-black text-white"
+                <span class="rounded-full text-center text-2xl font-bold w-auto p-2 h-auto bg-black text-white"
                     [ngStyle]="{'border': movie?.vote_average! >= 7 ? '5px solid green' : '5px solid yellow'}">
                     {{movie?.vote_average | number : '1.1-1'}}
                 </span>
